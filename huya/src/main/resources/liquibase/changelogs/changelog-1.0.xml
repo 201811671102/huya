@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <!--如果一开始没用，后期想引入 liquibase，可以把以前的数据库导出成 sql，然后引入 sql 文件-->
+    <!--<include file="liquibase/changelogs/project.sql" relativeToChangelogFile="false"/>-->
+    
+    <changeSet id="2020615-01" author="CG">
+        <!--预判断-->
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="record"/>
+            </not>
+        </preConditions>
+        <!--创建表-->
+        <createTable tableName="record">  <!--创建表Usertwo-->
+            <column name="rid" type="integer(10)" encoding="utf8" remarks="记录id" autoIncrement="true"> <!--创建属性id-->
+                <constraints primaryKey="true" nullable="false"/> <!--设置为主键-->
+            </column>
+            <column name="huyaId" type="Integer(10)" encoding="utf8" remarks="虎牙id">
+                <constraints  nullable="false"/>
+            </column>
+            <column name="phone" type="varchar(200)" encoding="utf8" remarks="头像">
+                <constraints  nullable="false"/>
+            </column>
+            <column name="name" type="varchar(20)" encoding="utf8" remarks="名字">
+                <constraints  nullable="false"/>
+            </column>
+            <column name="score" type="Integer(10)" encoding="utf8" remarks="分数">
+                <constraints  nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

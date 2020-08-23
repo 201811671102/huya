@@ -1,0 +1,49 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/huya?characterEncoding=utf-8&useSSL=false
+    username: root
+    password: root
+    type: com.alibaba.druid.pool.DruidDataSource
+  liquibase:
+    contexts: dev
+    change-log: 'classpath:liquibase/master.xml'
+  redis:
+    port: 6380
+    database: 0
+    host: localhost
+    password:
+    jedis:
+      pool:
+        max-active: 200
+        max-wait: -1ms
+        max-idle: 1
+        min-idle: 0
+    timeout: 1000
+
+mybatis:
+  type-aliases-package: pre.cg.huya.pojo
+  mapper-locations: classpath:mappers/*.xml
+
+
+server:
+  port: 9090
+
+ws:
+  port: 9091
+  secretKey: 65f3285847dfeac7252f73d980010105
+
+
+#logging:
+#  level:
+#    pre.cg.huya.controller: debug #指定类的日志级别
+#  path: logs/ #指定日志生成路径
+#  pattern:
+#    console: "%d{yyyy-MM-dd HH:mm:ss,SSS}:%4p %t (%F:%L) - %m%n" #控制台输出日志格式
+#    file: "%d{yyyy-MM-dd HH:mm:ss,SSS}:%4p %t (%F:%L) - %m%n "#文件输出日志格式
+
+logging:
+  level:
+    pre.cg.huya.controller: trace
+  config: classpath:log4j2.xml
+

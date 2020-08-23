@@ -1,11 +1,13 @@
 package pre.cg.huya.websocket.manage;
 
-import pre.cg.huya.base.websocket.MessageUtil;
+import pre.cg.huya.base.websocket.PlayInfo;
 import pre.cg.huya.base.websocket.ProfileInfo;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 /**
  * @ClassName RoomManager
@@ -21,7 +23,7 @@ public class RoomManager {
     private RoomManager(){}
 
     //roomId 到 uid
-    private ConcurrentHashMap<String, List<String>> RoomIdUid = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<String, List<PlayInfo>> RoomIdUid = new ConcurrentHashMap<>();
     //roomid 到 profileId
     private ConcurrentHashMap<String, String> RoomIdProfileId = new ConcurrentHashMap<>();
     //roomId 到 uid 观众等待
@@ -33,7 +35,7 @@ public class RoomManager {
         return roomManager;
     }
 
-    public ConcurrentHashMap<String, List<String>> getRoomIdUid() {
+    public ConcurrentHashMap<String, List<PlayInfo>> getRoomIdUid() {
         return RoomIdUid;
     }
 
@@ -111,9 +113,10 @@ public class RoomManager {
         List<String> uidlist = this.RoomIdUidWait.get(roomid);
         uidlist.remove(uidlist.indexOf(uid));
         this.RoomIdUidWait.replace(roomid,uidlist);
-        joinRoom(roomid,uid);
+        PlayInfo playInfo = new PlayInfo();
+        playInfo.setUid(uid);
+        joinRoom(roomid,playInfo);
     }
-
     public void inProfileRoom(String roomid,String profileId){
         if (this.RoomIdProfileId.containsKey(roomid)){
             this.RoomIdProfileId.replace(roomid,profileId);
@@ -121,17 +124,16 @@ public class RoomManager {
             this.RoomIdProfileId.put(roomid, profileId);
         }
     }
-
-    public void openRoom(String roomid,String profileId){
+    public void openRoom(String roomid){
         if (this.RoomIdUid.containsKey(roomid)){
             closeRoom(roomid);
         }
-        List<String> list = new ArrayList<>();
+        List<PlayInfo> list = new ArrayList<>();
         this.RoomIdUid.put(roomid,list);
     }
-    public void joinRoom(String roomid,String uid){
-        List<String> list = this.RoomIdUid.get(roomid);
-        list.add(uid);
+    public void joinRoom(String roomid,PlayInfo playInfo){
+        List<PlayInfo> list = this.RoomIdUid.get(roomid);
+        list.add(playInfo);
         this.RoomIdUid.replace(roomid,list);
     }
     public void closeRoom(String roomid){
@@ -139,21 +141,42 @@ public class RoomManager {
         this.RoomIdUidWait.remove(roomid);
     }
     public void leftRoom(String uid,String roomId){
-        List<String> list = this.RoomIdUid.get(roomId);
+        List<PlayInfo> list = this.RoomIdUid.get(roomId);
         list.remove(list.indexOf(uid));
         this.RoomIdUid.put(roomId,list);
     }
     public boolean isRoom(String roomid){
         return this.RoomIdUid.containsKey(roomid==null?"":roomid);
     }
-    public List<String> getUidList(String roomid){
+    public List<PlayInfo> getUidList(String roomid){
         return this.RoomIdUid.getOrDefault(roomid,new ArrayList<>());
     }
     public String getProfileId(String roomid){
         return this.RoomIdProfileId.getOrDefault(roomid,null);
     }
     public boolean inRoom(String uid,String roomid){
-        List<String> uidlist = this.RoomIdUid.getOrDefault(roomid,null);
+        List<PlayInfo> uidlist = this.RoomIdUid.getOrDefault(roomid,null);
         return uidlist == null?false:(uidlist.contains(uid));
+    }
+    public PlayInfo getPlayInfo(String roomid,PlayInfo playInfo){
+        List<PlayInfo> playInfoList =  RoomIdUid.getOrDefault(roomid,null);
+        if (playInfoList != null)
+            return playInfoList.get(playInfoList.indexOf(playInfo));
+        return null;
+    }
+    public List<PlayInfo> updatePlayInfoSort(String roomid,PlayInfo playInfo){
+        List<PlayInfo> playInfoList = RoomIdUid.getOrDefault(roomid,null);
+        if (playInfoList == null){
+            return null;
+        }
+        Collections.replaceAll(playInfoList,playInfo,playInfo);
+        return playInfoList.stream().sorted((a,b)->{
+            return b.getScore().compareTo(a.getScore());
+        }).collect(Collectors.toList());
+    }
+    public void  updatePlayInfo(String roomid,PlayInfo playInfo){
+        List<PlayInfo> playInfoList = RoomIdUid.getOrDefault(roomid,null);
+        if (playInfoList != null)
+        Collections.replaceAll(playInfoList,playInfo,playInfo);
     }
 }
