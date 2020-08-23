@@ -153,7 +153,7 @@ public class RoomManager {
         return this.RoomIdProfileId.getOrDefault(roomid,null);
     }
     public boolean inRoom(String uid,String roomid){
-        List<String> uidlist = new ArrayList<>();
-        return (uidlist=this.RoomIdUid.getOrDefault(roomid,null))==null?false:uidlist.contains(uid);
+        List<String> uidlist = this.RoomIdUid.getOrDefault(roomid,null);
+        return uidlist == null?false:(uidlist.contains(uid));
     }
 }
