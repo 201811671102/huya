@@ -1,0 +1,84 @@
+syntax="proto3";
+
+package mode;
+
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.cs.heart_release_sock.protocol";
+option java_generic_services = true;
+option java_multiple_files=true;
+
+enum Protocol{
+    Protocol_Default = 0;
+    /*心跳包*/
+    Heartbeat = 1000;
+    /*用户不在线*/
+    User_No_Online = 2000;
+    /*位置*/
+    User_Position = 3000;
+    /*点赞*/
+    User_Thumb_Up = 4000;
+    /*评论*/
+    User_Comment = 5000;
+    /*咨询*/
+    User_Consulting = 6000;
+    /*交流*/
+    User_Communication = 7000;
+    /*交流时发送图片*/
+    User_Communication_photo = 8000;
+    /*语音聊天*/
+    User_Call = 9000;
+    /*访客*/
+    User_Access = 10000;
+    /*收藏*/
+    User_Collection = 11000;
+    /*医师回复咨询请求*/
+    User_Consulting_Consult = 12000;
+}
+/*websocket消息标准*/
+message Packet{
+    int32 code = 1;
+    bytes body = 2;
+    int32 from = 3;
+    int32 to = 4;
+}
+
+/*发送地址*/
+message Position{
+    double latitude = 1;
+    double longitude = 2;
+}
+/*发送图片*/
+message Photo{
+    bytes photo = 1;
+    google.protobuf.Timestamp photoTime = 2;
+}
+/*语音通话*/
+message Call{
+    string userId = 1;
+    string userName = 2;
+}
+/*点赞、评论、咨询*/
+message Message{
+    string userName = 1;
+    string content = 2;
+    string userPhoto = 3;
+    google.protobuf.Timestamp messageTime = 4;
+}
+/*咨询请求回复*/
+message Consult{
+    string userName = 1;
+    string record = 2;
+    string userPhoto = 3;
+    google.protobuf.Timestamp consultTime = 4;
+    bool access = 5;
+}
+/*访客、收藏*/
+message Access{
+    string userName = 1;
+    string userPhoto = 2;
+    google.protobuf.Timestamp accessTime = 3;
+}
+
+
+

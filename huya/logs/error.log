@@ -1,0 +1,27 @@
+2020-08-29 02:56:37.213 [pool-3-thread-3] ERROR pre.cg.huya.websocket.handler.WebsocketHandler - handle frame failed.
+java.lang.NullPointerException: null
+	at pre.cg.huya.websocket.manage.RoomManager.joinRoom(RoomManager.java:143) ~[classes/:?]
+	at pre.cg.huya.websocket.handler.WebsocketHandler$1.run(WebsocketHandler.java:123) [classes/:?]
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511) [?:1.8.0_111]
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266) [?:1.8.0_111]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_111]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_111]
+	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_111]
+2020-08-29 02:58:16.988 [pool-3-thread-1] ERROR pre.cg.huya.websocket.handler.WebsocketHandler - handle frame failed.
+java.lang.NullPointerException: null
+	at pre.cg.huya.websocket.manage.RoomManager.joinRoom(RoomManager.java:143) ~[classes/:?]
+	at pre.cg.huya.websocket.handler.WebsocketHandler$1.run(WebsocketHandler.java:123) [classes/:?]
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511) [?:1.8.0_111]
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266) [?:1.8.0_111]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_111]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_111]
+	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_111]
+2020-08-29 03:09:36.605 [pool-3-thread-3] ERROR pre.cg.huya.websocket.handler.WebsocketHandler - handle frame failed.
+java.lang.NullPointerException: null
+	at pre.cg.huya.dto.ScorePlayInfo.<init>(ScorePlayInfo.java:20) ~[classes/:?]
+	at pre.cg.huya.websocket.handler.WebsocketHandler$1.run(WebsocketHandler.java:132) [classes/:?]
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511) [?:1.8.0_111]
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266) [?:1.8.0_111]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_111]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_111]
+	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_111]

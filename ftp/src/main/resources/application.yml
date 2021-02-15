@@ -1,0 +1,58 @@
+server:
+  port: 8181
+
+mybatis:
+  type-aliases-package: pre.cg.ftp.pojo
+  mapper-locations: classpath:mappers/*.xml
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/ftp?characterEncoding=utf-8&useSSL=false
+    username: root
+    password: root
+    platform: mysql
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    # Hikari 连接池配置
+    # 最小空闲连接数量
+    hikari:
+      minimum-idle: 5
+      # 空闲连接存活最大时间，默认600000（10分钟）
+      idle-timeout: 180000
+      # 连接池最大连接数，默认是10
+      maximum-pool-size: 10
+      # 此属性控制从池返回的连接的默认自动提交行为,默认值：true
+      auto-commit: true
+      # 连接池名称
+      pool-name: MyHikariCP
+      # 此属性控制池中连接的最长生命周期，值0表示无限生命周期，默认1800000即30分钟
+      max-lifetime: 1800000
+      # 数据库连接超时时间,默认30秒，即30000
+      connection-timeout: 30000
+      connection-test-query: SELECT 1
+
+  servlet:
+    multipart:
+      max-file-size: 200MB #���õ����ϴ��ļ���С
+      max-request-size: 200MB #����һ�������ϴ��ļ���������
+
+  liquibase:
+    contexts: dev
+    change-log: 'classpath:liquibase/master.xml'
+
+ftp:
+  userName: ftpuser
+  password: 123
+  host: 129.204.145.82
+  port: 21
+  root: /
+  MaxTotal: 100
+  MinIdel: 2
+  MaxIdle: 5
+  MaxWaitMillis: 3000
+
+pagehelper:
+  helper-dialect: mysql
+  params: count
+  reasonable: true
+  support-methods-arguments: true

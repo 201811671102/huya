@@ -1,0 +1,31 @@
+2020-08-29 04:42:04.551 [main] INFO  pre.cg.huya.HuyaApplication - Starting HuyaApplication on LAPTOP-65J7PK1O with PID 6776 (E:\MavenProject\huya\target\classes started by QQ163 in E:\MavenProject\huya)
+2020-08-29 04:42:04.559 [main] DEBUG pre.cg.huya.HuyaApplication - Running with Spring Boot v2.0.0.RELEASE, Spring v5.0.4.RELEASE
+2020-08-29 04:42:04.559 [main] INFO  pre.cg.huya.HuyaApplication - No active profile set, falling back to default profiles: default
+2020-08-29 04:42:07.456 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9090"]
+2020-08-29 04:42:07.465 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2020-08-29 04:42:07.466 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet Engine: Apache Tomcat/8.5.28
+2020-08-29 04:42:07.485 [localhost-startStop-1] INFO  org.apache.catalina.core.AprLifecycleListener - The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: [E:\Java\jdk1.8.0_111\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;D:\FileZilla\;E:\PythonCG\Scripts\;E:\PythonCG\;C:\ProgramData\Oracle\Java\javapath;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;"E:\Java\jdk1.8.0_111\bin;E:\Java\jdk1.8.0_111\jre\bin";"E:\apache-tomcat-8.5.43\lib;E:\apache-tomcat-8.5.43\bin";E:\MySQL\MySQL Server 5.5\bin;E:\Java\jdk1.8.0_111\bin;E:\spss\JRE\bin;E:\python;E:\MongoDB\bin;E:\git\Git\cmd;E:\python\Scripts\;E:\python\;C:\Users\QQ163\AppData\Local\Microsoft\WindowsApps;C:\Users\QQ163\AppData\Local\Programs\Microsoft VS Code\bin;E:\PhpStorm 2019.3.3\bin;;E:\vscode\Microsoft VS Code\bin;.]
+2020-08-29 04:42:07.587 [localhost-startStop-1] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2020-08-29 04:42:09.530 [main] INFO  springfox.documentation.spring.web.PropertySourcedRequestMappingHandlerMapping - Mapped URL path [/v2/api-docs] onto method [public org.springframework.http.ResponseEntity<springfox.documentation.spring.web.json.Json> springfox.documentation.swagger2.web.Swagger2Controller.getDocumentation(java.lang.String,javax.servlet.http.HttpServletRequest)]
+2020-08-29 04:42:10.444 [main] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
+2020-08-29 04:42:10.743 [main] INFO  liquibase - Successfully acquired change log lock
+2020-08-29 04:42:11.630 [main] INFO  liquibase - Reading from huya.DATABASECHANGELOG
+2020-08-29 04:42:11.688 [main] INFO  liquibase - Successfully released change log lock
+2020-08-29 04:42:11.792 [main] INFO  springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper - Context refreshed
+2020-08-29 04:42:11.808 [main] INFO  springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper - Found 1 custom documentation plugin(s)
+2020-08-29 04:42:11.853 [main] INFO  springfox.documentation.spring.web.scanners.ApiListingReferenceScanner - Scanning for api listing references
+2020-08-29 04:42:12.058 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9090"]
+2020-08-29 04:42:12.069 [main] INFO  org.apache.tomcat.util.net.NioSelectorPool - Using a shared selector for servlet write/read
+2020-08-29 04:42:12.107 [main] INFO  pre.cg.huya.HuyaApplication - Started HuyaApplication in 9.724 seconds (JVM running for 12.294)
+2020-08-29 04:42:12.894 [pool-2-thread-1] WARN  io.netty.bootstrap.ServerBootstrap - Unknown channel option 'TCP_NODELAY' for channel '[id: 0x43d7376a]'
+2020-08-29 04:42:12.957 [nioEventLoopGroup-4-1] INFO  pre.cg.huya.websocket.WebsocketServer - websocket server startup at port:9091
+2020-08-29 04:42:46.874 [pool-3-thread-2] DEBUG pre.cg.huya.mapper.PlayInfoMapper.selectByPrimaryKey - ==>  Preparing: select uid, name, phone from playinfo where uid = ? 
+2020-08-29 04:42:46.888 [pool-3-thread-2] DEBUG pre.cg.huya.mapper.PlayInfoMapper.selectByPrimaryKey - ==> Parameters: hy_78219730(String)
+2020-08-29 04:42:46.899 [pool-3-thread-2] TRACE pre.cg.huya.mapper.PlayInfoMapper.selectByPrimaryKey - <==    Columns: uid, name, phone
+2020-08-29 04:42:46.899 [pool-3-thread-2] TRACE pre.cg.huya.mapper.PlayInfoMapper.selectByPrimaryKey - <==        Row: hy_78219730, 陈干, null
+2020-08-29 04:42:46.901 [pool-3-thread-2] DEBUG pre.cg.huya.mapper.PlayInfoMapper.selectByPrimaryKey - <==      Total: 1
+2020-08-29 04:42:49.382 [pool-3-thread-3] DEBUG pre.cg.huya.mapper.PlayInfoMapper.selectByPrimaryKey - ==>  Preparing: select uid, name, phone from playinfo where uid = ? 
+2020-08-29 04:42:49.383 [pool-3-thread-3] DEBUG pre.cg.huya.mapper.PlayInfoMapper.selectByPrimaryKey - ==> Parameters: hy_78219730(String)
+2020-08-29 04:42:49.384 [pool-3-thread-3] TRACE pre.cg.huya.mapper.PlayInfoMapper.selectByPrimaryKey - <==    Columns: uid, name, phone
+2020-08-29 04:42:49.384 [pool-3-thread-3] TRACE pre.cg.huya.mapper.PlayInfoMapper.selectByPrimaryKey - <==        Row: hy_78219730, 陈干, null
+2020-08-29 04:42:49.384 [pool-3-thread-3] DEBUG pre.cg.huya.mapper.PlayInfoMapper.selectByPrimaryKey - <==      Total: 1

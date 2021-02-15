@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet id="20200819-01" author="CG">
+        <preConditions>
+            <not>
+                <tableExists tableName="file"></tableExists>
+            </not>
+        </preConditions>
+        <createTable tableName="file">
+            <column name="fid" type="integer(50)" encoding="utf8" remarks="文件id" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"></constraints>
+            </column>
+            <column name="filePath" type="varchar(100)" encoding="utf8" remarks="文件路径">
+                <constraints nullable="false" unique="true"></constraints>
+            </column>
+            <column name="fileTime" type="timestamp" encoding="utf8" remarks="上传时间">
+                <constraints nullable="false" unique="true"></constraints>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="20201126-01" author="CG">
+        <preConditions>
+            <not>
+                <tableExists tableName="User"></tableExists>
+                <tableExists tableName="item"></tableExists>
+            </not>
+        </preConditions>
+        <createTable tableName="User">
+            <column name="id" type="integer(50)" encoding="utf8" remarks="itemid" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"></constraints>
+            </column>
+            <column name="name" type="varchar(50)" encoding="utf8" remarks="昵称">
+                <constraints nullable="false"></constraints>
+            </column>
+            <column name="account" type="varchar(50)" encoding="utf8" remarks="账号">
+                <constraints nullable="false"></constraints>
+            </column>
+            <column name="password" type="varchar(50)" encoding="utf8" remarks="密码">
+                <constraints nullable="false"></constraints>
+            </column>
+            <column name="imagepath" type="varchar(100)" encoding="utf8" remarks="头像">
+                <constraints nullable="false"></constraints>
+            </column>
+        </createTable>
+
+        <createTable tableName="item">
+            <column name="id" type="integer(50)" encoding="utf8" remarks="itemid" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"></constraints>
+            </column>
+            <column name="title" type="varchar(100)" encoding="utf8" remarks="标题">
+                <constraints nullable="false" unique="false"></constraints>
+            </column>
+            <column name="classifier" type="integer(10)" encoding="utf8" remarks="分类">
+                <constraints nullable="false" unique="false"></constraints>
+            </column>
+            <column name="imagePath" type="varchar(100)" encoding="utf8" remarks="图片地址">
+                <constraints nullable="false" unique="false"></constraints>
+            </column>
+            <column name="videoPath" type="varchar(100)" encoding="utf8" remarks="视频地址">
+                <constraints nullable="false" unique="false"></constraints>
+            </column>
+            <column name="upTime" type="timestamp" encoding="utf8" remarks="上传时间">
+                <constraints nullable="false"></constraints>
+            </column>
+            <column name="uid" type="integer(10)" encoding="utf8" remarks="用户id" >
+                <constraints nullable="false" foreignKeyName="item_user_id" references="User(id)" />
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

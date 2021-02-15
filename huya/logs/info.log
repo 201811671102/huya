@@ -1,0 +1,148 @@
+2020-08-29 02:54:32.273 [main] INFO  pre.cg.huya.HuyaApplication - Starting HuyaApplication on LAPTOP-65J7PK1O with PID 14096 (E:\MavenProject\huya\target\classes started by QQ163 in E:\MavenProject\huya)
+2020-08-29 02:54:32.357 [main] INFO  pre.cg.huya.HuyaApplication - No active profile set, falling back to default profiles: default
+2020-08-29 02:54:37.940 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9090"]
+2020-08-29 02:54:37.975 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2020-08-29 02:54:37.977 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet Engine: Apache Tomcat/8.5.28
+2020-08-29 02:54:37.995 [localhost-startStop-1] INFO  org.apache.catalina.core.AprLifecycleListener - The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: [E:\Java\jdk1.8.0_111\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;D:\FileZilla\;E:\PythonCG\Scripts\;E:\PythonCG\;C:\ProgramData\Oracle\Java\javapath;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;"E:\Java\jdk1.8.0_111\bin;E:\Java\jdk1.8.0_111\jre\bin";"E:\apache-tomcat-8.5.43\lib;E:\apache-tomcat-8.5.43\bin";E:\MySQL\MySQL Server 5.5\bin;E:\Java\jdk1.8.0_111\bin;E:\spss\JRE\bin;E:\python;E:\MongoDB\bin;E:\git\Git\cmd;E:\python\Scripts\;E:\python\;C:\Users\QQ163\AppData\Local\Microsoft\WindowsApps;C:\Users\QQ163\AppData\Local\Programs\Microsoft VS Code\bin;E:\PhpStorm 2019.3.3\bin;;E:\vscode\Microsoft VS Code\bin;.]
+2020-08-29 02:54:38.384 [localhost-startStop-1] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2020-08-29 02:54:41.773 [main] INFO  springfox.documentation.spring.web.PropertySourcedRequestMappingHandlerMapping - Mapped URL path [/v2/api-docs] onto method [public org.springframework.http.ResponseEntity<springfox.documentation.spring.web.json.Json> springfox.documentation.swagger2.web.Swagger2Controller.getDocumentation(java.lang.String,javax.servlet.http.HttpServletRequest)]
+2020-08-29 02:54:43.360 [main] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
+2020-08-29 02:54:44.058 [main] INFO  liquibase - Successfully acquired change log lock
+2020-08-29 02:54:45.285 [main] INFO  liquibase - Reading from huya.DATABASECHANGELOG
+2020-08-29 02:54:45.360 [main] INFO  liquibase - Successfully released change log lock
+2020-08-29 02:54:45.550 [main] INFO  springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper - Context refreshed
+2020-08-29 02:54:45.578 [main] INFO  springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper - Found 1 custom documentation plugin(s)
+2020-08-29 02:54:45.624 [main] INFO  springfox.documentation.spring.web.scanners.ApiListingReferenceScanner - Scanning for api listing references
+2020-08-29 02:54:46.026 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9090"]
+2020-08-29 02:54:46.040 [main] INFO  org.apache.tomcat.util.net.NioSelectorPool - Using a shared selector for servlet write/read
+2020-08-29 02:54:46.109 [main] INFO  pre.cg.huya.HuyaApplication - Started HuyaApplication in 17.095 seconds (JVM running for 22.322)
+2020-08-29 02:54:46.892 [pool-2-thread-1] WARN  io.netty.bootstrap.ServerBootstrap - Unknown channel option 'TCP_NODELAY' for channel '[id: 0x10bfa3a7]'
+2020-08-29 02:54:46.960 [nioEventLoopGroup-4-1] INFO  pre.cg.huya.websocket.WebsocketServer - websocket server startup at port:9091
+2020-08-29 02:56:37.213 [pool-3-thread-3] ERROR pre.cg.huya.websocket.handler.WebsocketHandler - handle frame failed.
+java.lang.NullPointerException: null
+	at pre.cg.huya.websocket.manage.RoomManager.joinRoom(RoomManager.java:143) ~[classes/:?]
+	at pre.cg.huya.websocket.handler.WebsocketHandler$1.run(WebsocketHandler.java:123) [classes/:?]
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511) [?:1.8.0_111]
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266) [?:1.8.0_111]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_111]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_111]
+	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_111]
+2020-08-29 02:58:16.988 [pool-3-thread-1] ERROR pre.cg.huya.websocket.handler.WebsocketHandler - handle frame failed.
+java.lang.NullPointerException: null
+	at pre.cg.huya.websocket.manage.RoomManager.joinRoom(RoomManager.java:143) ~[classes/:?]
+	at pre.cg.huya.websocket.handler.WebsocketHandler$1.run(WebsocketHandler.java:123) [classes/:?]
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511) [?:1.8.0_111]
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266) [?:1.8.0_111]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_111]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_111]
+	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_111]
+2020-08-29 03:00:24.771 [main] INFO  pre.cg.huya.HuyaApplication - Starting HuyaApplication on LAPTOP-65J7PK1O with PID 4512 (E:\MavenProject\huya\target\classes started by QQ163 in E:\MavenProject\huya)
+2020-08-29 03:00:24.781 [main] INFO  pre.cg.huya.HuyaApplication - No active profile set, falling back to default profiles: default
+2020-08-29 03:00:27.047 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9090"]
+2020-08-29 03:00:27.058 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2020-08-29 03:00:27.059 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet Engine: Apache Tomcat/8.5.28
+2020-08-29 03:00:27.071 [localhost-startStop-1] INFO  org.apache.catalina.core.AprLifecycleListener - The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: [E:\Java\jdk1.8.0_111\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;D:\FileZilla\;E:\PythonCG\Scripts\;E:\PythonCG\;C:\ProgramData\Oracle\Java\javapath;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;"E:\Java\jdk1.8.0_111\bin;E:\Java\jdk1.8.0_111\jre\bin";"E:\apache-tomcat-8.5.43\lib;E:\apache-tomcat-8.5.43\bin";E:\MySQL\MySQL Server 5.5\bin;E:\Java\jdk1.8.0_111\bin;E:\spss\JRE\bin;E:\python;E:\MongoDB\bin;E:\git\Git\cmd;E:\python\Scripts\;E:\python\;C:\Users\QQ163\AppData\Local\Microsoft\WindowsApps;C:\Users\QQ163\AppData\Local\Programs\Microsoft VS Code\bin;E:\PhpStorm 2019.3.3\bin;;E:\vscode\Microsoft VS Code\bin;.]
+2020-08-29 03:00:27.182 [localhost-startStop-1] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2020-08-29 03:00:29.009 [main] INFO  springfox.documentation.spring.web.PropertySourcedRequestMappingHandlerMapping - Mapped URL path [/v2/api-docs] onto method [public org.springframework.http.ResponseEntity<springfox.documentation.spring.web.json.Json> springfox.documentation.swagger2.web.Swagger2Controller.getDocumentation(java.lang.String,javax.servlet.http.HttpServletRequest)]
+2020-08-29 03:00:30.256 [main] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
+2020-08-29 03:00:30.758 [main] INFO  liquibase - Successfully acquired change log lock
+2020-08-29 03:00:31.580 [main] INFO  liquibase - Reading from huya.DATABASECHANGELOG
+2020-08-29 03:00:31.593 [main] INFO  liquibase - Successfully released change log lock
+2020-08-29 03:00:31.749 [main] INFO  springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper - Context refreshed
+2020-08-29 03:00:31.777 [main] INFO  springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper - Found 1 custom documentation plugin(s)
+2020-08-29 03:00:31.823 [main] INFO  springfox.documentation.spring.web.scanners.ApiListingReferenceScanner - Scanning for api listing references
+2020-08-29 03:00:32.174 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9090"]
+2020-08-29 03:00:32.184 [main] INFO  org.apache.tomcat.util.net.NioSelectorPool - Using a shared selector for servlet write/read
+2020-08-29 03:00:32.253 [main] INFO  pre.cg.huya.HuyaApplication - Started HuyaApplication in 9.168 seconds (JVM running for 11.173)
+2020-08-29 03:00:32.919 [pool-2-thread-1] WARN  io.netty.bootstrap.ServerBootstrap - Unknown channel option 'TCP_NODELAY' for channel '[id: 0x43da0e65]'
+2020-08-29 03:00:32.952 [nioEventLoopGroup-4-1] INFO  pre.cg.huya.websocket.WebsocketServer - websocket server startup at port:9091
+2020-08-29 03:07:35.353 [main] INFO  pre.cg.huya.HuyaApplication - Starting HuyaApplication on LAPTOP-65J7PK1O with PID 14880 (E:\MavenProject\huya\target\classes started by QQ163 in E:\MavenProject\huya)
+2020-08-29 03:07:35.365 [main] INFO  pre.cg.huya.HuyaApplication - No active profile set, falling back to default profiles: default
+2020-08-29 03:07:37.641 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9090"]
+2020-08-29 03:07:37.657 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2020-08-29 03:07:37.661 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet Engine: Apache Tomcat/8.5.28
+2020-08-29 03:07:37.666 [localhost-startStop-1] INFO  org.apache.catalina.core.AprLifecycleListener - The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: [E:\Java\jdk1.8.0_111\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;D:\FileZilla\;E:\PythonCG\Scripts\;E:\PythonCG\;C:\ProgramData\Oracle\Java\javapath;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;"E:\Java\jdk1.8.0_111\bin;E:\Java\jdk1.8.0_111\jre\bin";"E:\apache-tomcat-8.5.43\lib;E:\apache-tomcat-8.5.43\bin";E:\MySQL\MySQL Server 5.5\bin;E:\Java\jdk1.8.0_111\bin;E:\spss\JRE\bin;E:\python;E:\MongoDB\bin;E:\git\Git\cmd;E:\python\Scripts\;E:\python\;C:\Users\QQ163\AppData\Local\Microsoft\WindowsApps;C:\Users\QQ163\AppData\Local\Programs\Microsoft VS Code\bin;E:\PhpStorm 2019.3.3\bin;;E:\vscode\Microsoft VS Code\bin;.]
+2020-08-29 03:07:37.810 [localhost-startStop-1] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2020-08-29 03:07:39.553 [main] INFO  springfox.documentation.spring.web.PropertySourcedRequestMappingHandlerMapping - Mapped URL path [/v2/api-docs] onto method [public org.springframework.http.ResponseEntity<springfox.documentation.spring.web.json.Json> springfox.documentation.swagger2.web.Swagger2Controller.getDocumentation(java.lang.String,javax.servlet.http.HttpServletRequest)]
+2020-08-29 03:07:40.744 [main] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
+2020-08-29 03:07:41.023 [main] INFO  liquibase - Successfully acquired change log lock
+2020-08-29 03:07:41.720 [main] INFO  liquibase - Reading from huya.DATABASECHANGELOG
+2020-08-29 03:07:41.740 [main] INFO  liquibase - Successfully released change log lock
+2020-08-29 03:07:41.866 [main] INFO  springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper - Context refreshed
+2020-08-29 03:07:41.880 [main] INFO  springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper - Found 1 custom documentation plugin(s)
+2020-08-29 03:07:41.921 [main] INFO  springfox.documentation.spring.web.scanners.ApiListingReferenceScanner - Scanning for api listing references
+2020-08-29 03:07:42.223 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9090"]
+2020-08-29 03:07:42.242 [main] INFO  org.apache.tomcat.util.net.NioSelectorPool - Using a shared selector for servlet write/read
+2020-08-29 03:07:42.256 [main] INFO  pre.cg.huya.HuyaApplication - Started HuyaApplication in 8.677 seconds (JVM running for 10.436)
+2020-08-29 03:07:42.771 [pool-2-thread-1] WARN  io.netty.bootstrap.ServerBootstrap - Unknown channel option 'TCP_NODELAY' for channel '[id: 0xbc01ca23]'
+2020-08-29 03:07:42.795 [nioEventLoopGroup-4-1] INFO  pre.cg.huya.websocket.WebsocketServer - websocket server startup at port:9091
+2020-08-29 03:08:56.241 [main] INFO  pre.cg.huya.HuyaApplication - Starting HuyaApplication on LAPTOP-65J7PK1O with PID 14240 (E:\MavenProject\huya\target\classes started by QQ163 in E:\MavenProject\huya)
+2020-08-29 03:08:56.246 [main] INFO  pre.cg.huya.HuyaApplication - No active profile set, falling back to default profiles: default
+2020-08-29 03:08:58.514 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9090"]
+2020-08-29 03:08:58.540 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2020-08-29 03:08:58.540 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet Engine: Apache Tomcat/8.5.28
+2020-08-29 03:08:58.546 [localhost-startStop-1] INFO  org.apache.catalina.core.AprLifecycleListener - The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: [E:\Java\jdk1.8.0_111\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;D:\FileZilla\;E:\PythonCG\Scripts\;E:\PythonCG\;C:\ProgramData\Oracle\Java\javapath;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;"E:\Java\jdk1.8.0_111\bin;E:\Java\jdk1.8.0_111\jre\bin";"E:\apache-tomcat-8.5.43\lib;E:\apache-tomcat-8.5.43\bin";E:\MySQL\MySQL Server 5.5\bin;E:\Java\jdk1.8.0_111\bin;E:\spss\JRE\bin;E:\python;E:\MongoDB\bin;E:\git\Git\cmd;E:\python\Scripts\;E:\python\;C:\Users\QQ163\AppData\Local\Microsoft\WindowsApps;C:\Users\QQ163\AppData\Local\Programs\Microsoft VS Code\bin;E:\PhpStorm 2019.3.3\bin;;E:\vscode\Microsoft VS Code\bin;.]
+2020-08-29 03:08:58.754 [localhost-startStop-1] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2020-08-29 03:09:00.502 [main] INFO  springfox.documentation.spring.web.PropertySourcedRequestMappingHandlerMapping - Mapped URL path [/v2/api-docs] onto method [public org.springframework.http.ResponseEntity<springfox.documentation.spring.web.json.Json> springfox.documentation.swagger2.web.Swagger2Controller.getDocumentation(java.lang.String,javax.servlet.http.HttpServletRequest)]
+2020-08-29 03:09:01.721 [main] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
+2020-08-29 03:09:02.047 [main] INFO  liquibase - Successfully acquired change log lock
+2020-08-29 03:09:02.857 [main] INFO  liquibase - Reading from huya.DATABASECHANGELOG
+2020-08-29 03:09:02.874 [main] INFO  liquibase - Successfully released change log lock
+2020-08-29 03:09:03.015 [main] INFO  springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper - Context refreshed
+2020-08-29 03:09:03.046 [main] INFO  springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper - Found 1 custom documentation plugin(s)
+2020-08-29 03:09:03.087 [main] INFO  springfox.documentation.spring.web.scanners.ApiListingReferenceScanner - Scanning for api listing references
+2020-08-29 03:09:03.360 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9090"]
+2020-08-29 03:09:03.379 [main] INFO  org.apache.tomcat.util.net.NioSelectorPool - Using a shared selector for servlet write/read
+2020-08-29 03:09:03.401 [main] INFO  pre.cg.huya.HuyaApplication - Started HuyaApplication in 8.568 seconds (JVM running for 10.451)
+2020-08-29 03:09:03.880 [pool-2-thread-1] WARN  io.netty.bootstrap.ServerBootstrap - Unknown channel option 'TCP_NODELAY' for channel '[id: 0x48434580]'
+2020-08-29 03:09:03.915 [nioEventLoopGroup-4-1] INFO  pre.cg.huya.websocket.WebsocketServer - websocket server startup at port:9091
+2020-08-29 03:09:36.605 [pool-3-thread-3] ERROR pre.cg.huya.websocket.handler.WebsocketHandler - handle frame failed.
+java.lang.NullPointerException: null
+	at pre.cg.huya.dto.ScorePlayInfo.<init>(ScorePlayInfo.java:20) ~[classes/:?]
+	at pre.cg.huya.websocket.handler.WebsocketHandler$1.run(WebsocketHandler.java:132) [classes/:?]
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511) [?:1.8.0_111]
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266) [?:1.8.0_111]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_111]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_111]
+	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_111]
+2020-08-29 04:28:38.260 [main] INFO  pre.cg.huya.HuyaApplication - Starting HuyaApplication on LAPTOP-65J7PK1O with PID 12944 (E:\MavenProject\huya\target\classes started by QQ163 in E:\MavenProject\huya)
+2020-08-29 04:28:38.330 [main] INFO  pre.cg.huya.HuyaApplication - No active profile set, falling back to default profiles: default
+2020-08-29 04:28:43.877 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9090"]
+2020-08-29 04:28:43.897 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2020-08-29 04:28:43.900 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet Engine: Apache Tomcat/8.5.28
+2020-08-29 04:28:43.922 [localhost-startStop-1] INFO  org.apache.catalina.core.AprLifecycleListener - The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: [E:\Java\jdk1.8.0_111\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;D:\FileZilla\;E:\PythonCG\Scripts\;E:\PythonCG\;C:\ProgramData\Oracle\Java\javapath;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;"E:\Java\jdk1.8.0_111\bin;E:\Java\jdk1.8.0_111\jre\bin";"E:\apache-tomcat-8.5.43\lib;E:\apache-tomcat-8.5.43\bin";E:\MySQL\MySQL Server 5.5\bin;E:\Java\jdk1.8.0_111\bin;E:\spss\JRE\bin;E:\python;E:\MongoDB\bin;E:\git\Git\cmd;E:\python\Scripts\;E:\python\;C:\Users\QQ163\AppData\Local\Microsoft\WindowsApps;C:\Users\QQ163\AppData\Local\Programs\Microsoft VS Code\bin;E:\PhpStorm 2019.3.3\bin;;E:\vscode\Microsoft VS Code\bin;.]
+2020-08-29 04:28:44.081 [localhost-startStop-1] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2020-08-29 04:28:47.051 [main] INFO  springfox.documentation.spring.web.PropertySourcedRequestMappingHandlerMapping - Mapped URL path [/v2/api-docs] onto method [public org.springframework.http.ResponseEntity<springfox.documentation.spring.web.json.Json> springfox.documentation.swagger2.web.Swagger2Controller.getDocumentation(java.lang.String,javax.servlet.http.HttpServletRequest)]
+2020-08-29 04:28:48.404 [main] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
+2020-08-29 04:28:49.089 [main] INFO  liquibase - Successfully acquired change log lock
+2020-08-29 04:28:49.871 [main] INFO  liquibase - Reading from huya.DATABASECHANGELOG
+2020-08-29 04:28:49.930 [main] INFO  liquibase - Successfully released change log lock
+2020-08-29 04:28:50.100 [main] INFO  springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper - Context refreshed
+2020-08-29 04:28:50.125 [main] INFO  springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper - Found 1 custom documentation plugin(s)
+2020-08-29 04:28:50.186 [main] INFO  springfox.documentation.spring.web.scanners.ApiListingReferenceScanner - Scanning for api listing references
+2020-08-29 04:28:50.445 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9090"]
+2020-08-29 04:28:50.454 [main] INFO  org.apache.tomcat.util.net.NioSelectorPool - Using a shared selector for servlet write/read
+2020-08-29 04:28:50.528 [main] INFO  pre.cg.huya.HuyaApplication - Started HuyaApplication in 16.975 seconds (JVM running for 20.889)
+2020-08-29 04:28:51.002 [pool-2-thread-1] WARN  io.netty.bootstrap.ServerBootstrap - Unknown channel option 'TCP_NODELAY' for channel '[id: 0x3bb9e20e]'
+2020-08-29 04:28:51.052 [nioEventLoopGroup-4-1] INFO  pre.cg.huya.websocket.WebsocketServer - websocket server startup at port:9091
+2020-08-29 04:29:36.352 [http-nio-9090-exec-1] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring FrameworkServlet 'dispatcherServlet'
+2020-08-29 04:42:04.551 [main] INFO  pre.cg.huya.HuyaApplication - Starting HuyaApplication on LAPTOP-65J7PK1O with PID 6776 (E:\MavenProject\huya\target\classes started by QQ163 in E:\MavenProject\huya)
+2020-08-29 04:42:04.559 [main] INFO  pre.cg.huya.HuyaApplication - No active profile set, falling back to default profiles: default
+2020-08-29 04:42:07.456 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9090"]
+2020-08-29 04:42:07.465 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2020-08-29 04:42:07.466 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet Engine: Apache Tomcat/8.5.28
+2020-08-29 04:42:07.485 [localhost-startStop-1] INFO  org.apache.catalina.core.AprLifecycleListener - The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: [E:\Java\jdk1.8.0_111\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;D:\FileZilla\;E:\PythonCG\Scripts\;E:\PythonCG\;C:\ProgramData\Oracle\Java\javapath;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;"E:\Java\jdk1.8.0_111\bin;E:\Java\jdk1.8.0_111\jre\bin";"E:\apache-tomcat-8.5.43\lib;E:\apache-tomcat-8.5.43\bin";E:\MySQL\MySQL Server 5.5\bin;E:\Java\jdk1.8.0_111\bin;E:\spss\JRE\bin;E:\python;E:\MongoDB\bin;E:\git\Git\cmd;E:\python\Scripts\;E:\python\;C:\Users\QQ163\AppData\Local\Microsoft\WindowsApps;C:\Users\QQ163\AppData\Local\Programs\Microsoft VS Code\bin;E:\PhpStorm 2019.3.3\bin;;E:\vscode\Microsoft VS Code\bin;.]
+2020-08-29 04:42:07.587 [localhost-startStop-1] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2020-08-29 04:42:09.530 [main] INFO  springfox.documentation.spring.web.PropertySourcedRequestMappingHandlerMapping - Mapped URL path [/v2/api-docs] onto method [public org.springframework.http.ResponseEntity<springfox.documentation.spring.web.json.Json> springfox.documentation.swagger2.web.Swagger2Controller.getDocumentation(java.lang.String,javax.servlet.http.HttpServletRequest)]
+2020-08-29 04:42:10.444 [main] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
+2020-08-29 04:42:10.743 [main] INFO  liquibase - Successfully acquired change log lock
+2020-08-29 04:42:11.630 [main] INFO  liquibase - Reading from huya.DATABASECHANGELOG
+2020-08-29 04:42:11.688 [main] INFO  liquibase - Successfully released change log lock
+2020-08-29 04:42:11.792 [main] INFO  springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper - Context refreshed
+2020-08-29 04:42:11.808 [main] INFO  springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper - Found 1 custom documentation plugin(s)
+2020-08-29 04:42:11.853 [main] INFO  springfox.documentation.spring.web.scanners.ApiListingReferenceScanner - Scanning for api listing references
+2020-08-29 04:42:12.058 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9090"]
+2020-08-29 04:42:12.069 [main] INFO  org.apache.tomcat.util.net.NioSelectorPool - Using a shared selector for servlet write/read
+2020-08-29 04:42:12.107 [main] INFO  pre.cg.huya.HuyaApplication - Started HuyaApplication in 9.724 seconds (JVM running for 12.294)
+2020-08-29 04:42:12.894 [pool-2-thread-1] WARN  io.netty.bootstrap.ServerBootstrap - Unknown channel option 'TCP_NODELAY' for channel '[id: 0x43d7376a]'
+2020-08-29 04:42:12.957 [nioEventLoopGroup-4-1] INFO  pre.cg.huya.websocket.WebsocketServer - websocket server startup at port:9091

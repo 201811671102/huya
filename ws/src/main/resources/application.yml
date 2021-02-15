@@ -1,0 +1,21 @@
+server:
+  port: ${ws.port}
+ws:
+  port: 9091
+
+spring:
+  application:
+    name: CGws
+  rabbitmq:
+    host: 39.96.68.53
+    port: 5672
+    username: CGRabbitMQ
+    password: CGRabbitMQ
+
+mq:
+  CG:
+    exchange: profileGift
+    queue:
+      profile: profile
+      routing:
+        profile: profileKey

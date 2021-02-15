@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <!--如果一开始没用，后期想引入 liquibase，可以把以前的数据库导出成 sql，然后引入 sql 文件-->
+    <!--<include file="liquibase/changelogs/project.sql" relativeToChangelogFile="false"/>-->
+    
+    <changeSet id="20200313-01" author="CG">
+        <!--预判断-->
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="prod"/>
+            </not>
+        </preConditions>
+        <!--创建表-->
+        <createTable tableName="prod">  <!--创建表Usertwo-->
+            <column name="prod_id" type="integer(10)" encoding="utf8" remarks="商品id" autoIncrement="true"> <!--创建属性id-->
+                <constraints primaryKey="true" nullable="false"/> <!--设置为主键-->
+            </column>
+            <column name="prod_pname" type="varchar(20)" encoding="utf8" remarks="商品名字">
+                <constraints  nullable="false"/>
+            </column>
+            <column name="prod_price" type="double(20)" encoding="utf8" remarks="商品价格">
+                <constraints  nullable="false"/>
+            </column>
+            <column name="prod_description" type="varchar(20)" encoding="utf8" remarks="商品描述">
+                <constraints  nullable="false"/>
+            </column>
+            <column name="update_time" type="timestamp" encoding="utf8" remarks="更新时间">
+                <constraints  nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

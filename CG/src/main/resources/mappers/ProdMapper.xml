@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pre.cg.mapper.ProdMapper">
+  <resultMap id="BaseResultMap" type="pre.cg.pojo.Prod">
+    <constructor>
+      <idArg column="prod_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="prod_pname" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="prod_price" javaType="java.lang.Double" jdbcType="DOUBLE" />
+      <arg column="prod_description" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="update_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    prod_id, prod_pname, prod_price, prod_description, update_time
+  </sql>
+  <select id="selectByExample" parameterType="pre.cg.pojo.ProdExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from prod
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from prod
+    where prod_id = #{prodId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from prod
+    where prod_id = #{prodId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="pre.cg.pojo.ProdExample">
+    delete from prod
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="pre.cg.pojo.Prod">
+    <selectKey keyProperty="prodId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into prod (prod_pname, prod_price, prod_description, 
+      update_time)
+    values (#{prodPname,jdbcType=VARCHAR}, #{prodPrice,jdbcType=DOUBLE}, #{prodDescription,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="pre.cg.pojo.Prod">
+    <selectKey keyProperty="prodId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into prod
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="prodPname != null">
+        prod_pname,
+      </if>
+      <if test="prodPrice != null">
+        prod_price,
+      </if>
+      <if test="prodDescription != null">
+        prod_description,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="prodPname != null">
+        #{prodPname,jdbcType=VARCHAR},
+      </if>
+      <if test="prodPrice != null">
+        #{prodPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="prodDescription != null">
+        #{prodDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByExampleSelective" parameterType="map">
+    update prod
+    <set>
+      <if test="record.prodId != null">
+        prod_id = #{record.prodId,jdbcType=INTEGER},
+      </if>
+      <if test="record.prodPname != null">
+        prod_pname = #{record.prodPname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.prodPrice != null">
+        prod_price = #{record.prodPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="record.prodDescription != null">
+        prod_description = #{record.prodDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update prod
+    set prod_id = #{record.prodId,jdbcType=INTEGER},
+      prod_pname = #{record.prodPname,jdbcType=VARCHAR},
+      prod_price = #{record.prodPrice,jdbcType=DOUBLE},
+      prod_description = #{record.prodDescription,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="pre.cg.pojo.Prod">
+    update prod
+    <set>
+      <if test="prodPname != null">
+        prod_pname = #{prodPname,jdbcType=VARCHAR},
+      </if>
+      <if test="prodPrice != null">
+        prod_price = #{prodPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="prodDescription != null">
+        prod_description = #{prodDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where prod_id = #{prodId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="pre.cg.pojo.Prod">
+    update prod
+    set prod_pname = #{prodPname,jdbcType=VARCHAR},
+      prod_price = #{prodPrice,jdbcType=DOUBLE},
+      prod_description = #{prodDescription,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where prod_id = #{prodId,jdbcType=INTEGER}
+  </update>
+</mapper>

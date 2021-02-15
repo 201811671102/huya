@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <!--如果一开始没用，后期想引入 liquibase，可以把以前的数据库导出成 sql，然后引入 sql 文件-->
+    <!--<include file="liquibase/changelogs/project.sql" relativeToChangelogFile="false"/>-->
+    
+    <changeSet id="20210206-01" author="CG">
+        <!--预判断-->
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="message_record"/>
+                <tableExists tableName="analysis"/>
+                <tableExists tableName="analysis_record"/>
+                <indexExists indexName="uniq_message_record_index"/>
+                <indexExists indexName="uniq_analysis_index"/>
+                <indexExists indexName="uniq_analysis_record_index"/>
+            </not>
+        </preConditions>
+        <!--创建表-->
+        <createTable tableName="message_record" remarks="消息表">
+            <column name="id" type="integer(300)" remarks="消息id" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="code" type="integer(5)" remarks="消息类型">
+                <constraints  nullable="false"/>
+            </column>
+            <column name="content" type="mediumblob" remarks="内容">
+                <constraints  nullable="false"/>
+            </column>
+            <column name="from_user_id" type="integer(200)"  remarks="发送方用户id">
+                <constraints  nullable="false"/>
+            </column>
+            <column name="to_user_id" type="int(200)"  remarks="接收方用户id">
+                <constraints  nullable="false"/>
+            </column>
+            <column name="record_time" type="timestamp"  remarks="消息发送时间">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="readed" type="boolean"  remarks="是否接收">
+                <constraints  nullable="false"/>
+            </column>
+        </createTable>
+        <createTable tableName="analysis" remarks="消息分析">
+            <column name="id" type="integer(600)" remarks="消息分析id" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="content" type="varchar(200)" remarks="消息">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="integer(300)" remarks="用户id">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sentiment" type="integer(5)" remarks="情感极性分类结果">
+                <constraints nullable="false"/>
+            </column>
+            <column name="confidence" type="double" remarks="分类的置信度">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createTable tableName="analysis_record" remarks="分析记录">
+            <column name="id" type="integer(600)" remarks="分析记录id" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="record_time" type="timestamp" remarks="记录时间">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="int(300)" remarks="用户id">
+                <constraints nullable="false"/>
+            </column>
+            <column name="analysis_id" type="integer(600)" remarks="分析id">
+                <constraints nullable="false" foreignKeyName="analysis_record_analysis_id" referencedTableName="analysis" referencedColumnNames="id"/>
+            </column>
+            <column name="score" type="double" remarks="分析得分">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <!--创建索引-->
+        <createIndex tableName="message_record" indexName="uniq_message_record_index">
+            <column name="from_user_id">
+                <constraints nullable="false"/>
+            </column>
+            <column name="to_user_id">
+                <constraints nullable="false"/>
+            </column>
+        </createIndex>
+        <createIndex tableName="analysis" indexName="uniq_analysis_index">
+            <column name="user_id">
+                <constraints nullable="false"/>
+            </column>
+        </createIndex>
+        <createIndex tableName="analysis_record" indexName="uniq_analysis_record_index">
+            <column name="user_id">
+                <constraints nullable="false"/>
+            </column>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>
