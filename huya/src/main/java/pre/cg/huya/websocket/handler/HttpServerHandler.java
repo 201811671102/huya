@@ -11,12 +11,12 @@ import io.netty.channel.*;
 import io.netty.handler.codec.http.*;
 import io.netty.handler.codec.http.websocketx.WebSocketServerHandshaker;
 import io.netty.handler.codec.http.websocketx.WebSocketServerHandshakerFactory;
+import io.netty.util.ReferenceCountUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
 import pre.cg.huya.base.websocket.*;
 import pre.cg.huya.controller.RecordController;
 import pre.cg.huya.websocket.manage.ConnManager;
-import pre.cg.huya.websocket.manage.PlayInfoManager;
 import pre.cg.huya.websocket.manage.RoomManager;
 
 
@@ -43,39 +43,42 @@ public class HttpServerHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        if (msg instanceof FullHttpRequest) {
-            HttpRequest request = (HttpRequest) msg;
-            HttpHeaders headers = request.headers();
-            // 判断ws upgrade
-            if (!StringUtils.isEmpty(headers.get(HttpHeaderNames.SEC_WEBSOCKET_KEY))) {
-                QueryStringDecoder queryStringDecoder = new QueryStringDecoder(request.uri());
-                Map<String, List<String>> params = queryStringDecoder.parameters();
-                Preconditions.checkArgument(params.containsKey("jwt"), "jwt参数为空");
-                String jwt = params.get("jwt").get(0);
-                try {
-                    // jwt校验
-                    Algorithm algorithm = Algorithm.HMAC256(WSConfig.secretKey);
-                    this.verifier = JWT.require(algorithm).build();
-                    DecodedJWT decodedJWT = verifier.verify(jwt);
-                    String userId = decodedJWT.getClaim("userId").asString();
-                    String roomId = decodedJWT.getClaim("roomId").asString();
-                    String profileId = decodedJWT.getClaim("profileId").asString();
-                    Preconditions.checkArgument(!StringUtils.isEmpty(userId) && !StringUtils.isEmpty(roomId) && !StringUtils.isEmpty(profileId),
-                            "token信息错误，userId:{}, roomId:{}, profileId:{}", userId, roomId, profileId);
-                    // ws握手
-                    log.info("收到新连接->uid:{}, roomid:{},profileId:{}, isPresenter:{}", userId, roomId,profileId, userId.equals(profileId));
-                    handleHandshake(ctx, request, userId, roomId, profileId);
-                }catch (JWTVerificationException e){
-                    log.error("token校验失败 jwt:"+jwt, e);
-                    ctx.close();
+        try {
+            if (msg instanceof FullHttpRequest) {
+                HttpRequest request = (HttpRequest) msg;
+                HttpHeaders headers = request.headers();
+                // 判断ws upgrade
+                if (!StringUtils.isEmpty(headers.get(HttpHeaderNames.SEC_WEBSOCKET_KEY))) {
+                    QueryStringDecoder queryStringDecoder = new QueryStringDecoder(request.uri());
+                    Map<String, List<String>> params = queryStringDecoder.parameters();
+                    Preconditions.checkArgument(params.containsKey("jwt"), "jwt参数为空");
+                    String jwt = params.get("jwt").get(0);
+                    try {
+                        // jwt校验
+                        Algorithm algorithm = Algorithm.HMAC256(WSConfig.secretKey);
+                        this.verifier = JWT.require(algorithm).build();
+                        DecodedJWT decodedJWT = verifier.verify(jwt);
+                        String userId = decodedJWT.getClaim("userId").asString();
+                        String roomId = decodedJWT.getClaim("roomId").asString();
+                        String profileId = decodedJWT.getClaim("profileId").asString();
+                        Preconditions.checkArgument(!StringUtils.isEmpty(userId) && !StringUtils.isEmpty(roomId) && !StringUtils.isEmpty(profileId),
+                                "token信息错误，userId:{}, roomId:{}, profileId:{}", userId, roomId, profileId);
+                        // ws握手
+                  //        log.info("收到新连接->uid:{}, roomid:{},profileId:{}, isPresenter:{}", userId, roomId,profileId, userId.equals(profileId));
+                        handleHandshake(ctx, request, userId, roomId, profileId);
+                    }catch (JWTVerificationException e){
+                        log.error("token校验失败 jwt:"+jwt, e);
+                        ctx.close();
+                    }
+                }else{
+                    FullHttpResponse res = new DefaultFullHttpResponse(HTTP_1_1, OK, Unpooled.wrappedBuffer(new RecordController().getAll().toString().getBytes()));
+                    HttpUtil.setContentLength(res, res.content().readableBytes());
+                    ctx.channel().writeAndFlush(res);
                 }
-            }else{
-                FullHttpResponse res = new DefaultFullHttpResponse(HTTP_1_1, OK, Unpooled.wrappedBuffer(new RecordController().getAll().toString().getBytes()));
-                HttpUtil.setContentLength(res, res.content().readableBytes());
-                ctx.channel().writeAndFlush(res);
             }
+        }finally {
+            ReferenceCountUtil.release(msg);
         }
-        ctx.flush();
     }
 
     private void handleHandshake(
@@ -102,9 +105,7 @@ public class HttpServerHandler extends ChannelInboundHandlerAdapter {
                             }
                         }else{
                             // 加入房间
-                            PlayInfo playInfo = new PlayInfo();
-                            playInfo.setUid(uid);
-                            RoomManager.getInstance().joinRoom(roomId, playInfo);
+                            RoomManager.getInstance().joinRoom(roomId, uid);
                             MessageUtil.broadcast(Protocol.Room_Open.getValue(), "", roomId);
                         }
                     }else{

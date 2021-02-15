@@ -1,13 +1,10 @@
 package pre.cg.huya.websocket.manage;
 
-import pre.cg.huya.base.websocket.PlayInfo;
 import pre.cg.huya.base.websocket.ProfileInfo;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 
 /**
  * @ClassName RoomManager
@@ -23,7 +20,7 @@ public class RoomManager {
     private RoomManager(){}
 
     //roomId 到 uid
-    private ConcurrentHashMap<String, List<PlayInfo>> RoomIdUid = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<String, List<String>> RoomIdUid = new ConcurrentHashMap<>();
     //roomid 到 profileId
     private ConcurrentHashMap<String, String> RoomIdProfileId = new ConcurrentHashMap<>();
     //roomId 到 uid 观众等待
@@ -35,7 +32,7 @@ public class RoomManager {
         return roomManager;
     }
 
-    public ConcurrentHashMap<String, List<PlayInfo>> getRoomIdUid() {
+    public ConcurrentHashMap<String, List<String>> getRoomIdUid() {
         return RoomIdUid;
     }
 
@@ -69,15 +66,15 @@ public class RoomManager {
             this.SolrRoom.replace(profileInfo.getSoloRoomId(),profileInfoList);
         }
     }
-    public void leftSole(String soloRoomid,ProfileInfo profileInfo){
-        List<ProfileInfo> profileInfoList = new ArrayList<>();
-        if ((profileInfoList = this.SolrRoom.getOrDefault(soloRoomid,null))==null?false:profileInfoList.contains(profileInfo)){
+    public void leftSole(ProfileInfo profileInfo){
+        List<ProfileInfo> profileInfoList = this.SolrRoom.getOrDefault(profileInfo.getSoloRoomId(),null);
+        if (profileInfoList == null?false:profileInfoList.contains(profileInfo)){
             if (profileInfoList.size() == 1){
-                this.SolrRoom.remove(soloRoomid);
+                this.SolrRoom.remove(profileInfo.getSoloRoomId());
             }else{
-                List<ProfileInfo> profileInfos = this.SolrRoom.get(soloRoomid);
+                List<ProfileInfo> profileInfos = this.SolrRoom.get(profileInfo.getSoloRoomId());
                 profileInfos.remove(profileInfos.indexOf(profileInfo));
-                this.SolrRoom.replace(soloRoomid,profileInfos);
+                this.SolrRoom.replace(profileInfo.getSoloRoomId(),profileInfos);
             }
         }
     }
@@ -85,6 +82,8 @@ public class RoomManager {
         List<ProfileInfo> profileInfoList = this.SolrRoom.getOrDefault(soloRoomid,null);
         return  profileInfoList;
     }
+    
+
     public boolean inwaitRoom(String roomid,String uid){
         if (this.RoomIdUidWait.containsKey(roomid) && this.RoomIdUidWait.get(roomid).contains(uid)){
             return true;
@@ -100,23 +99,31 @@ public class RoomManager {
         this.RoomIdUidWait.put(roomid,uidlist);
     }
     public void closeWaitRoom(String roomid){
-        this.RoomIdUidWait.remove(roomid);
+        if (this.RoomIdUidWait.containsKey(roomid)) {
+            this.RoomIdUidWait.remove(roomid);
+        }
     }
     public void leftWaitRoom(String roomid,String uid){
-        List<String> waituidlist = this.RoomIdUidWait.get(roomid);
-        waituidlist.remove(waituidlist.indexOf(uid));
+        List<String> waituidlist = this.RoomIdUidWait.getOrDefault(roomid,null);
+        int index = waituidlist == null?-1:waituidlist.indexOf(uid);
+        if (index != -1){
+            waituidlist.remove(index);
+        }
     }
     public List<String> getWaitUid(String roomid){
         return this.RoomIdUidWait.getOrDefault(roomid,null);
     }
     public void waittoroom(String roomid,String uid){
-        List<String> uidlist = this.RoomIdUidWait.get(roomid);
-        uidlist.remove(uidlist.indexOf(uid));
-        this.RoomIdUidWait.replace(roomid,uidlist);
-        PlayInfo playInfo = new PlayInfo();
-        playInfo.setUid(uid);
-        joinRoom(roomid,playInfo);
+        List<String> uidlist = this.RoomIdUidWait.getOrDefault(roomid,null);
+        if (uidlist == null || uidlist.size() == 0){
+            this.RoomIdUidWait.remove(roomid);
+        }else {
+            uidlist.remove(uidlist.indexOf(uid));
+            this.RoomIdUidWait.replace(roomid,uidlist);
+        }
+        joinRoom(roomid,uid);
     }
+
     public void inProfileRoom(String roomid,String profileId){
         if (this.RoomIdProfileId.containsKey(roomid)){
             this.RoomIdProfileId.replace(roomid,profileId);
@@ -128,55 +135,46 @@ public class RoomManager {
         if (this.RoomIdUid.containsKey(roomid)){
             closeRoom(roomid);
         }
-        List<PlayInfo> list = new ArrayList<>();
+        List<String> list = new ArrayList<>();
         this.RoomIdUid.put(roomid,list);
     }
-    public void joinRoom(String roomid,PlayInfo playInfo){
-        List<PlayInfo> list = this.RoomIdUid.get(roomid);
-        list.add(playInfo);
-        this.RoomIdUid.replace(roomid,list);
+    public void joinRoom(String roomid,String uid){
+        List<String> list = this.RoomIdUid.get(roomid);
+        if (!list.contains(uid)){
+            list.add(uid);
+            this.RoomIdUid.replace(roomid,list);
+        }
     }
     public void closeRoom(String roomid){
-        this.RoomIdUid.remove(roomid);
-        this.RoomIdUidWait.remove(roomid);
+        if (this.RoomIdUid.containsKey(roomid) && getUidList(roomid) != null) {
+            this.RoomIdUid.remove(roomid);
+            this.RoomIdUidWait.remove(roomid);
+        }
     }
     public void leftRoom(String uid,String roomId){
-        List<PlayInfo> list = this.RoomIdUid.get(roomId);
-        list.remove(list.indexOf(uid));
-        this.RoomIdUid.put(roomId,list);
+        List<String> list = this.RoomIdUid.getOrDefault(roomId,null);
+        int index = list == null?-1:list.indexOf(uid);
+        if (index != -1) {
+            list.remove(index);
+            this.RoomIdUid.put(roomId,list);
+        }
     }
     public boolean isRoom(String roomid){
         return this.RoomIdUid.containsKey(roomid==null?"":roomid);
     }
-    public List<PlayInfo> getUidList(String roomid){
-        return this.RoomIdUid.getOrDefault(roomid,new ArrayList<>());
+    public List<String> getUidList(String roomid){
+        return this.RoomIdUid.getOrDefault(roomid,null);
     }
     public String getProfileId(String roomid){
         return this.RoomIdProfileId.getOrDefault(roomid,null);
     }
     public boolean inRoom(String uid,String roomid){
-        List<PlayInfo> uidlist = this.RoomIdUid.getOrDefault(roomid,null);
+        List<String> uidlist = this.RoomIdUid.getOrDefault(roomid,null);
         return uidlist == null?false:(uidlist.contains(uid));
     }
-    public PlayInfo getPlayInfo(String roomid,PlayInfo playInfo){
-        List<PlayInfo> playInfoList =  RoomIdUid.getOrDefault(roomid,null);
-        if (playInfoList != null)
-            return playInfoList.get(playInfoList.indexOf(playInfo));
-        return null;
-    }
-    public List<PlayInfo> updatePlayInfoSort(String roomid,PlayInfo playInfo){
-        List<PlayInfo> playInfoList = RoomIdUid.getOrDefault(roomid,null);
-        if (playInfoList == null){
-            return null;
+    public void removeProfile(String roomid){
+        if (this.RoomIdProfileId.containsKey(roomid)) {
+            this.RoomIdProfileId.remove(roomid);
         }
-        Collections.replaceAll(playInfoList,playInfo,playInfo);
-        return playInfoList.stream().sorted((a,b)->{
-            return b.getScore().compareTo(a.getScore());
-        }).collect(Collectors.toList());
-    }
-    public void  updatePlayInfo(String roomid,PlayInfo playInfo){
-        List<PlayInfo> playInfoList = RoomIdUid.getOrDefault(roomid,null);
-        if (playInfoList != null)
-        Collections.replaceAll(playInfoList,playInfo,playInfo);
     }
 }

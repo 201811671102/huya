@@ -21,6 +21,10 @@ spring:
         min-idle: 0
     timeout: 1000
 
+  cache:
+    ehcache:
+      config: ehcache.xml
+
 mybatis:
   type-aliases-package: pre.cg.huya.pojo
   mapper-locations: classpath:mappers/*.xml
@@ -44,6 +48,6 @@ ws:
 
 logging:
   level:
-    pre.cg.huya.controller: trace
+    pre.cg.huya: trace
   config: classpath:log4j2.xml
 

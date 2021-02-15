@@ -49,12 +49,13 @@ public class ConnManager {
         if (key != null) {
             String uid = getUid(channel);
             String roomid = getRoomId(channel);
-            if (RoomManager.getInstance().inRoom(uid,roomid)){
-                RoomManager.getInstance().leftRoom(uid,roomid);
-            }else if(RoomManager.getInstance().inwaitRoom(roomid,uid)){
-                RoomManager.getInstance().leftWaitRoom(roomid,uid);
-            }else if (uid == RoomManager.getInstance().getProfileId(roomid) && RoomManager.getInstance().getUidList(roomid)!=null){
+            String profileId = RoomManager.getInstance().getProfileId(roomid);
+            if (uid.equals(profileId)){
                 RoomManager.getInstance().closeRoom(roomid);
+                RoomManager.getInstance().removeProfile(roomid);
+            }else {
+                RoomManager.getInstance().leftRoom(uid,roomid);
+                RoomManager.getInstance().leftWaitRoom(roomid,uid);
             }
             this.Uid2ChannelMap.remove(key);
             this.Channel2UidMap.remove(channel);

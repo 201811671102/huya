@@ -33,7 +33,6 @@ public class ChannelUtil {
     public static void write(Channel channel, String packet) throws IOException {
         if(channel != null && channel.isWritable()) {
             TextWebSocketFrame textWebSocketFrame = new TextWebSocketFrame(packet);
-            //log.info("发送信息"+packet);
             channel.eventLoop().execute(new Runnable() {
                 @Override
                 public void run() {

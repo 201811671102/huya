@@ -9,9 +9,7 @@ import pre.cg.huya.pojo.RecordExample;
 import pre.cg.huya.redis.RedisUtil;
 import pre.cg.huya.service.RecordService;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @ClassName RecordServiceImpl
@@ -28,17 +26,23 @@ public class RecordServiceImpl implements RecordService {
 
 
     @Override
-    public int insertNew(Record record) throws Exception {
+    public void insertNew(Record record) throws Exception {
         RecordExample recordExample = new RecordExample();
-        recordExample.createCriteria().andNameEqualTo(record.getName());
+        recordExample.createCriteria().andUidEqualTo(record.getUid());
         Record record1 = null;
-        redisUtil.set("huyaRecird"+record.getRid(),record);
-       try {
-           record1 = recordMapper.selectByExample(recordExample).get(0);
-           record.setRid(record1.getRid());
-           return recordMapper.updateByPrimaryKeySelective(record);
-       }catch (IndexOutOfBoundsException e){}
-        return recordMapper.insertSelective(record);
+        try {
+            if (redisUtil.hasKey("huyaRecird" + record.getUid())) {
+                redisUtil.del(record.getUid());
+            }
+            redisUtil.set("huyaRecird" + record.getUid(), record);
+            if (recordMapper.selectByExample(recordExample)!=null){
+                recordMapper.updateByExample(record,recordExample);
+            }else{
+                recordMapper.insertSelective(record);
+            }
+        }catch (Exception e){
+            throw e;
+        }
     }
 
     @Override
@@ -60,15 +64,15 @@ public class RecordServiceImpl implements RecordService {
     }
 
     @Override
-    public Record selectHuyaId(Integer huyaId) throws Exception {
+    public Record selectUid(String uid) throws Exception {
         RecordExample recordExample = new RecordExample();
-        recordExample.createCriteria().andHuyaidEqualTo(huyaId);
+        recordExample.createCriteria().andUidEqualTo(uid);
         try {
-            if (redisUtil.hasKey("huyaRecird"+huyaId)){
-                return (Record) redisUtil.get("huyaRecird"+huyaId);
+            if (redisUtil.hasKey("huyaRecird"+uid)){
+                return (Record) redisUtil.get("huyaRecird"+uid);
             }else{
                 Record record = recordMapper.selectByExample(recordExample).get(0);
-                redisUtil.set("huyaRecird"+huyaId,record);
+                redisUtil.set("huyaRecird"+uid,record);
                 return record;
             }
         }catch (IndexOutOfBoundsException e){

@@ -20,7 +20,7 @@ public class Swagger2 {
     public Docket createRestApi(){
         Docket docket = new Docket(DocumentationType.SWAGGER_2);
         docket.host("39.96.68.53:9090");
-//        docket.host("localhost:9090");
+  //      docket.host("localhost:9090");
         docket.apiInfo(apiInfo())
                 .useDefaultResponseMessages(false)
                 .select()

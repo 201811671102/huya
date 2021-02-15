@@ -50,6 +50,8 @@
             <columnOverride column="apply_for" javaType="com.jd.ins.personal.claim.domain.enums.ApplyForType" typeHandler="org.apache.ibatis.type.EnumTypeHandler"/>
             <!--<ignoreColumn column="create_time"/>-->
         </table>
-
+        <table schema="huya" tableName="playinfo" enableCountByExample="true" domainObjectName="PlayInfo">
+            <columnOverride column="apply_for" javaType="com.jd.ins.personal.claim.domain.enums.ApplyForType" typeHandler="org.apache.ibatis.type.EnumTypeHandler"/>
+        </table>
     </context>
 </generatorConfiguration>

@@ -26,7 +26,7 @@ public class SocketChannelInitializer extends ChannelInitializer<SocketChannel> 
     protected void initChannel(SocketChannel socketChannel) throws Exception {
         ChannelPipeline pipeline = socketChannel.pipeline();
         // 链接idle状态检测，服务端10s内没有收到客户端数据判断为非活跃链接并主动断开链接
-        pipeline.addLast(new IdleStateHandler(10, 0, 0, TimeUnit.SECONDS));
+        pipeline.addLast(new IdleStateHandler(5, 0, 0, TimeUnit.MINUTES));
         //编码解码器
         pipeline.addLast(new HttpServerCodec());
         //将多个消息转换成单一的消息对象

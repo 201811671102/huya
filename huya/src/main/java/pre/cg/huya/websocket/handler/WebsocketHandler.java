@@ -7,21 +7,22 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.handler.codec.http.websocketx.BinaryWebSocketFrame;
-import io.netty.handler.codec.http.websocketx.CloseWebSocketFrame;
-import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
-import io.netty.handler.codec.http.websocketx.WebSocketFrame;
+import io.netty.handler.codec.http.websocketx.*;
 import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import pre.cg.huya.base.websocket.*;
+import pre.cg.huya.dto.ScorePlayInfo;
+import pre.cg.huya.pojo.PlayInfo;
+import pre.cg.huya.service.PlayInfoService;
 import pre.cg.huya.websocket.manage.ConnManager;
-import pre.cg.huya.websocket.manage.PlayInfoManager;
 import pre.cg.huya.websocket.manage.RoomManager;
 
 
+import javax.annotation.PostConstruct;
 import java.io.IOException;
-import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -35,8 +36,19 @@ import java.util.concurrent.TimeUnit;
  *
  */
 @Slf4j
+@Component
 @ChannelHandler.Sharable
 public class WebsocketHandler extends SimpleChannelInboundHandler<WebSocketFrame> {
+
+    @Autowired
+    private PlayInfoService playInfoService;
+
+    //解决@Autowired为null
+    private static WebsocketHandler websocketHandler;
+    @PostConstruct
+    public void init(){
+        websocketHandler = this;
+    }
 
     // 业务线程池
     private static final ExecutorService bizThreadPool =
@@ -53,6 +65,7 @@ public class WebsocketHandler extends SimpleChannelInboundHandler<WebSocketFrame
             TextWebSocketFrame textWebSocketFrame = (TextWebSocketFrame)msg;
             handleWSTextFrame(ctx,textWebSocketFrame);
         }
+
     }
 
     @Override
@@ -90,7 +103,15 @@ public class WebsocketHandler extends SimpleChannelInboundHandler<WebSocketFrame
                         switch (protocol) {
                             // 客户端心跳请求
                             case HeartbeatReq:
-                                MessageUtil.unicast(uid,Protocol.HeartbeatReq.getValue(),uid,roomId);
+                                if(uid.equalsIgnoreCase(profileId)){
+                                    MessageUtil.unicast(uid,protocol.HeartbeatReq.getValue(),"",roomId);
+                                    break;
+                                }
+                                if(RoomManager.getInstance().isRoom(roomId)){
+                                    MessageUtil.unicast(uid,protocol.Room_Open.getValue(),"",roomId);
+                                }else{
+                                    MessageUtil.unicast(uid,protocol.Room_Close.getValue(),"",roomId);
+                                }
                                 break;
                              //开房
                             case Room_Open:
@@ -99,9 +120,15 @@ public class WebsocketHandler extends SimpleChannelInboundHandler<WebSocketFrame
                                 break;
                             //申请同戏
                             case Play_Info:
-                                PlayInfo playInfo = new PlayInfo(uid,(String) body,0);
-                         //       PlayInfoManager.getInstance().addPlayInfo(playInfo);
-                                RoomManager.getInstance().updatePlayInfo(roomId,playInfo);
+                                PlayInfo playInfo = websocketHandler.playInfoService.selectInfo(uid);
+                                if (playInfo == null){
+                                    playInfo = new PlayInfo();
+                                    playInfo.setUid(uid);
+                                    playInfo.setName((String)body);
+                                    playInfo.setPhone("null");
+                                    websocketHandler.playInfoService.insertInfo(playInfo);
+                                }
+                                RoomManager.getInstance().joinRoom(roomId,uid);
                                 MessageUtil.unicast(profileId,Protocol.Play_Info.getValue(), body,roomId);
                                 break;
                             //游戏开始
@@ -110,14 +137,13 @@ public class WebsocketHandler extends SimpleChannelInboundHandler<WebSocketFrame
                                 break;
                             //游戏结束
                             case Game_Over:
-//                                PlayInfo playInfoOver = PlayInfoManager.getInstance().getPlayInfo(uid);
-//                                playInfo.setScore(body);
-                                PlayInfo playInfoover = new PlayInfo();
-                                playInfoover.setUid(uid);
-                                playInfoover = RoomManager.getInstance().getPlayInfo(roomId,playInfoover);
-                                playInfoover.setScore((Integer) body);
-                                List<PlayInfo> playInfoList = RoomManager.getInstance().updatePlayInfoSort(roomId,playInfoover);
-                                MessageUtil.unicast(profileId,Protocol.Game_Over.getValue(),playInfoList,roomId);
+                                PlayInfo playInfo1 = websocketHandler.playInfoService.selectInfo(uid);
+                                if (playInfo1 == null){
+                                    break;
+                                }
+                                ScorePlayInfo scorePlayInfo = new ScorePlayInfo(playInfo1);
+                                scorePlayInfo.setScore((Integer)body);
+                                MessageUtil.unicast(profileId,Protocol.Game_Over.getValue(),scorePlayInfo,roomId);
                                 break;
                              //关闭房间
                             case Room_Close:
@@ -154,7 +180,6 @@ public class WebsocketHandler extends SimpleChannelInboundHandler<WebSocketFrame
                                 ProfileInfo profileInfojoin = JSONObject.parseObject( body.toString(),ProfileInfo.class);
                                 profileInfojoin.setUid(uid);
                                 profileInfojoin.setRoomid(roomId);
-                                log.info("---------------"+profileInfojoin.getSoloRoomId());
                                 if(!RoomManager.getInstance().isSoloRoom(profileInfojoin.getSoloRoomId())){
                                     ProfileMessage profileMessagewrong = new ProfileMessage();
                                     profileMessagewrong.setToRoomid(roomId);
@@ -175,8 +200,8 @@ public class WebsocketHandler extends SimpleChannelInboundHandler<WebSocketFrame
                                 break;
                               //solr 结束
                             case Solo_Over:
-                                ProfileInfo profileInfoover = JSONObject.parseObject( body.toString(),ProfileInfo.class);
-                                RoomManager.getInstance().leftSole(profileInfoover.getSoloRoomId(),profileInfoover);
+                                ProfileInfo profileInfoover = JSONObject.parseObject(body.toString(),ProfileInfo.class);
+                                RoomManager.getInstance().leftSole(profileInfoover);
                                 MessageUtil.broadcastSolo(profileInfoover,Protocol.Solo_Over.getValue());
                                 break;
                             default:

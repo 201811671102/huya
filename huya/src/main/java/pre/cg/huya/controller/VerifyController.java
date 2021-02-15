@@ -11,6 +11,7 @@ import io.swagger.annotations.ApiParam;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import pre.cg.huya.base.Code;
 import pre.cg.huya.base.ResultUtil;
 import pre.cg.huya.base.Verify.VerifyConfig;
 import pre.cg.huya.base.Verify.VerifyPojo;
@@ -91,9 +92,9 @@ public class VerifyController {
                 verifyPojo.setKaptcha_textproducer_char_string(kaptcha_textproducer_char_string);
             if (!StringUtils.isNullOrEmpty(kaptcha_noise_color))
                 verifyPojo.setKaptcha_noise_color(kaptcha_noise_color);
-            return ResultUtil.Success(verifyPojo);
+            return ResultUtil.success(verifyPojo);
         }catch (Exception e){
-            return ResultUtil.Error("500",e.getMessage());
+            return ResultUtil.error(Code.ERROR.code,e.getMessage());
         }
     }
 
@@ -144,16 +145,16 @@ public class VerifyController {
             HttpSession session = request.getSession();
             String rightcode = (String) session.getAttribute("code");
             if (StringUtils.isNullOrEmpty(rightcode)){
-                return ResultUtil.Error("400","没有验证码");
+                return ResultUtil.error(Code.FAil.code,"没有验证码");
             }else{
                 if (rightcode.equals(code)){
-                    return ResultUtil.Success();
+                    return ResultUtil.success();
                 }else{
-                    return ResultUtil.Error("404","验证码错误");
+                    return ResultUtil.error(Code.UNFOUNDED.code,"验证码错误");
                 }
             }
         }catch (Exception e){
-            return ResultUtil.Error("500",e.getMessage());
+            return ResultUtil.error(Code.ERROR.code,e.getMessage());
         }
 
     }
